@@ -58,3 +58,63 @@ The infrastructure consists of:
 - Application deployment
 - Basic troubleshooting
 - Cloud infrastructure fundamentals
+
+- ## 🌐 Network Architecture
+
+The AWS infrastructure is designed using a Virtual Private Cloud (VPC) with separate public and private subnets.
+
+### VPC Configuration
+
+- **VPC:** Custom AWS VPC
+- **Public Subnet:** Hosts internet-facing resources
+- **Private Subnet:** Designed for resources that should not be directly accessible from the internet
+- **Internet Gateway (IGW):** Provides internet connectivity to resources in the public subnet
+- **NAT Gateway:** Provides outbound internet access for resources in the private subnet
+- **Route Tables:** Control traffic between the subnets, Internet Gateway, and NAT Gateway
+
+### Network Flow
+
+```text
+Internet
+   │
+   ▼
+Internet Gateway (IGW)
+   │
+   ▼
+Public Subnet
+   │
+   ├── EC2 / Web Server
+   │
+   └── NAT Gateway
+          │
+          ▼
+     Private Subnet
+          │
+          └── Private Resources
+Public Subnet
+     │
+     ▼
+Route Table
+     │
+     ▼
+0.0.0.0/0 → Internet Gateway
+     │
+     ▼
+Internet
+
+Private Subnet
+     │
+     ▼
+Private Route Table
+     │
+     ▼
+0.0.0.0/0 → NAT Gateway
+     │
+     ▼
+Internet Gateway
+     │
+     ▼
+Internet
+
+
+
